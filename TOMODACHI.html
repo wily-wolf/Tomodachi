@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabella TOMODACHI</title>
+  
+  <style>
+    /* Reset e impostazioni base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Main content */
+    .main-content {
+      max-width: 700px;
+      width: 100%;
+      margin: auto;
+    }
+    
+    /* Titolo principale */
+    h1 {
+      margin: 20px 0 30px 0;
+      color: white;
+      text-align: center;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      letter-spacing: 2px;
+    }
+    
+    /* Card-style per la sezione principale */
+    .card-section {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+    
+    /* Stile tabella */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #292929;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #3a3a3a;
+    }
+    
+    th {
+      background-color: #333;
+      color: #f8d030;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    tbody tr:hover {
+      background-color: #383838;
+      transition: background-color 0.2s ease;
+    }
+    
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Colonna punteggio */
+    td:last-child {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    th:last-child {
+      text-align: center;
+    }
+    
+    /* Colori per i punteggi */
+    .positive {
+      color: #4caf50;
+    }
+    
+    .neutral {
+      color: #ffc107;
+    }
+    
+    .negative {
+      color: #f44336;
+    }
+    
+    .special {
+      color: #2196f3;
+      font-style: italic;
+    }
+    
+    /* Responsive: tabella */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .card-section {
+        padding: 20px 10px;
+      }
+      
+      th, td {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+      }
+      
+      th {
+        font-size: 1rem;
+      }
+      
+      td:last-child {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+      }
+      
+      th, td {
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-content">
+    <h1>TOMODACHI</h1>
+    
+    <div class="card-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Punteggio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👑 Panetty</td>
+            <td class="positive">50</td>
+          </tr>
+          <tr>
+            <td>Kodomo</td>
+            <td class="positive">40</td>
+          </tr>
+          <tr>
+            <td>Dario Moccia</td>
+            <td class="positive">10</td>
+          </tr>
+          <tr>
+            <td>Vking</td>
+            <td class="positive">1</td>
+          </tr>
+          <tr>
+            <td>Nanni</td>
+            <td class="neutral">0</td>
+          </tr>
+          <tr>
+            <td>Victor</td>
+            <td class="negative">-5</td>
+          </tr>
+          <tr>
+            <td>Mario Sturniolo</td>
+            <td class="negative">-10</td>
+          </tr>
+          <tr>
+            <td>Poly</td>
+            <td class="negative">-51</td>
+          </tr>
+          <tr>
+            <td>Dada</td>
+            <td class="special">o7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
