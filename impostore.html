@@ -25,6 +25,57 @@
             grid-template-columns: 400px 1fr;
             gap: 20px;
             height: calc(100vh - 40px);
+            position: relative;
+        }
+
+        .mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #252525;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            border: 2px solid #333;
+        }
+
+        .mode-toggle label {
+            font-size: 14px;
+            color: #aaa;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #333;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #4CAF50;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
         }
 
         .control-panel {
@@ -43,6 +94,80 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .navigation-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #555;
+            background: #1a1a1a;
+            padding: 10px 25px;
+            border-radius: 6px;
+        }
+
+        .arrow-left, .arrow-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 48px;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.2s;
+            user-select: none;
+            padding: 20px;
+        }
+
+        .arrow-left:hover, .arrow-right:hover {
+            color: #666;
+        }
+
+        .arrow-left {
+            left: 20px;
+        }
+
+        .arrow-right {
+            right: 20px;
+        }
+
+        .name-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-width: 800px;
+        }
+
+        .name-button {
+            padding: 20px 35px;
+            background: #2a2a2a;
+            color: #e0e0e0;
+            border: 2px solid #444;
+            border-radius: 8px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .name-button:hover {
+            background: #3a3a3a;
+            border-color: #666;
+            transform: scale(1.05);
+        }
+
+        .presentation-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: #666;
+            background: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 6px;
         }
 
         h1 {
@@ -86,9 +211,12 @@
         }
 
         .file-status {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #2a2a2a;
+            border-radius: 4px;
         }
 
         select {
@@ -192,27 +320,27 @@
             
             <div class="section">
                 <h2>📄 File</h2>
-                <div class="file-status" id="domandeStatus">Caricamento domande...</div>
-                <div class="file-status" id="nomiStatus">Caricamento nomi...</div>
+                <div class="file-status" id="domandeStatus">Caricamento domande.txt...</div>
+                <div class="file-status" id="nomiStatus">Caricamento tomodachi.txt...</div>
                 
-                <div id="manualUpload" class="hidden" style="margin-top: 20px;">
-                    <div class="file-upload">
-                        <label class="file-label" for="domandeFile">
+                <button id="toggleUpload" style="background: #555; font-size: 12px; padding: 8px; margin-top: 15px;">
+                    Mostra caricamento manuale
+                </button>
+                
+                <div id="manualUpload" class="hidden" style="margin-top: 15px;">
+                    <div class="file-upload" style="display: block;">
+                        <label class="file-label" for="domandeFile" style="display: block;">
                             Carica domande.txt
                         </label>
                         <input type="file" id="domandeFile" accept=".txt">
                     </div>
-                    <div class="file-upload">
-                        <label class="file-label" for="nomiFile">
+                    <div class="file-upload" style="display: block; margin-top: 10px;">
+                        <label class="file-label" for="nomiFile" style="display: block;">
                             Carica tomodachi.txt
                         </label>
                         <input type="file" id="nomiFile" accept=".txt">
                     </div>
                 </div>
-                
-                <button id="toggleUpload" style="background: #555; font-size: 12px; padding: 8px; margin-top: 10px;">
-                    Mostra caricamento manuale
-                </button>
             </div>
 
             <div class="section">
@@ -245,6 +373,14 @@
         </div>
 
         <div class="display-panel" id="displayPanel">
+            <div class="arrow-left hidden" id="arrowLeft">◄</div>
+            <div class="arrow-right hidden" id="arrowRight">►</div>
+            <div class="navigation-hint hidden" id="navHint">Clicca lo schermo o usa le frecce ← → per navigare</div>
+            <div class="presentation-counter hidden" id="counter"></div>
+            <div id="nameSelector" class="hidden">
+                <div class="display-question" style="margin-bottom: 40px;">Chi è l'impostore?</div>
+                <div class="name-selector" id="nameButtons"></div>
+            </div>
             <div id="content" class="hidden">
                 <div class="display-question" id="questionDisplay"></div>
                 <div class="display-impostor">
@@ -256,40 +392,63 @@
         </div>
     </div>
 
+    <div class="mode-toggle">
+        <label for="modeToggle">Manuale</label>
+        <div class="toggle-switch" id="toggleSwitch">
+            <div class="toggle-slider"></div>
+        </div>
+        <label for="modeToggle">Presentazione</label>
+    </div>
+
     <script>
         let domande = [];
         let nomi = [];
+        let presentationMode = false;
+        let currentQuestionIndex = 0;
+        let selectedImpostor = null;
+        let isShowingQuestion = false;
 
         // Caricamento automatico all'avvio
         window.addEventListener('load', function() {
+            console.log('Inizio caricamento file dalla repository...');
             caricaFileAutomatico('domande.txt', 'domande');
             caricaFileAutomatico('tomodachi.txt', 'nomi');
         });
 
         async function caricaFileAutomatico(filename, tipo) {
+            const statusId = tipo === 'domande' ? 'domandeStatus' : 'nomiStatus';
+            
             try {
+                console.log(`Tentativo di caricamento: ${filename}`);
                 const response = await fetch(filename);
-                if (!response.ok) throw new Error(`Errore nel caricamento di ${filename}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 
                 const text = await response.text();
                 const lines = text.split('\n').filter(line => line.trim() !== '');
                 
+                console.log(`${filename} caricato: ${lines.length} righe`);
+                
                 if (tipo === 'domande') {
                     domande = lines;
-                    document.getElementById('domandeStatus').textContent = `✓ ${domande.length} domande caricate`;
+                    document.getElementById(statusId).textContent = `✓ ${domande.length} domande caricate da domande.txt`;
+                    document.getElementById(statusId).style.color = '#4CAF50';
                     popolaSelect('domandaTutti', domande);
                     popolaSelect('domandaImpostore', domande);
                 } else if (tipo === 'nomi') {
                     nomi = lines;
-                    document.getElementById('nomiStatus').textContent = `✓ ${nomi.length} partecipanti caricati`;
+                    document.getElementById(statusId).textContent = `✓ ${nomi.length} partecipanti caricati da tomodachi.txt`;
+                    document.getElementById(statusId).style.color = '#4CAF50';
                     popolaSelect('impostore', nomi);
                 }
                 
                 checkReady();
             } catch (error) {
-                const statusId = tipo === 'domande' ? 'domandeStatus' : 'nomiStatus';
-                document.getElementById(statusId).textContent = `✗ File ${filename} non trovato - usa caricamento manuale`;
-                console.error(error);
+                console.error(`Errore caricamento ${filename}:`, error);
+                document.getElementById(statusId).textContent = `✗ Errore: ${filename} non trovato nella repository`;
+                document.getElementById(statusId).style.color = '#f44336';
             }
         }
 
@@ -315,6 +474,7 @@
                 reader.onload = function(e) {
                     domande = e.target.result.split('\n').filter(line => line.trim() !== '');
                     document.getElementById('domandeStatus').textContent = `✓ ${domande.length} domande caricate (manuale)`;
+                    document.getElementById('domandeStatus').style.color = '#4CAF50';
                     popolaSelect('domandaTutti', domande);
                     popolaSelect('domandaImpostore', domande);
                     checkReady();
@@ -331,12 +491,148 @@
                 reader.onload = function(e) {
                     nomi = e.target.result.split('\n').filter(line => line.trim() !== '');
                     document.getElementById('nomiStatus').textContent = `✓ ${nomi.length} partecipanti caricati (manuale)`;
+                    document.getElementById('nomiStatus').style.color = '#4CAF50';
                     popolaSelect('impostore', nomi);
                     checkReady();
                 };
                 reader.readAsText(file);
             }
         });
+
+        // Toggle modalità
+        document.getElementById('toggleSwitch').addEventListener('click', function() {
+            presentationMode = !presentationMode;
+            this.classList.toggle('active');
+            
+            if (presentationMode) {
+                // Entra in modalità presentazione
+                document.querySelector('.control-panel').style.display = 'none';
+                document.querySelector('.container').style.gridTemplateColumns = '1fr';
+                currentQuestionIndex = 0;
+                resetScreen();
+                showNameSelector();
+                enableKeyboardNavigation();
+            } else {
+                // Torna in modalità manuale
+                document.querySelector('.control-panel').style.display = 'block';
+                document.querySelector('.container').style.gridTemplateColumns = '400px 1fr';
+                resetScreen();
+                disableKeyboardNavigation();
+            }
+        });
+
+        function enableKeyboardNavigation() {
+            document.addEventListener('keydown', handleKeyPress);
+            document.getElementById('displayPanel').addEventListener('click', handleScreenClick);
+            document.getElementById('arrowLeft').addEventListener('click', previousQuestion);
+            document.getElementById('arrowRight').addEventListener('click', nextQuestion);
+            document.getElementById('navHint').classList.remove('hidden');
+            document.getElementById('arrowLeft').classList.remove('hidden');
+            document.getElementById('arrowRight').classList.remove('hidden');
+        }
+
+        function disableKeyboardNavigation() {
+            document.removeEventListener('keydown', handleKeyPress);
+            document.getElementById('displayPanel').removeEventListener('click', handleScreenClick);
+            document.getElementById('arrowLeft').removeEventListener('click', previousQuestion);
+            document.getElementById('arrowRight').removeEventListener('click', nextQuestion);
+            document.getElementById('navHint').classList.add('hidden');
+            document.getElementById('arrowLeft').classList.add('hidden');
+            document.getElementById('arrowRight').classList.add('hidden');
+        }
+
+        function handleKeyPress(e) {
+            if (!presentationMode) return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                nextQuestion();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousQuestion();
+            }
+        }
+
+        function handleScreenClick(e) {
+            // Non gestire click sui pulsanti dei nomi
+            if (e.target.classList.contains('name-button') || 
+                e.target.classList.contains('arrow-left') || 
+                e.target.classList.contains('arrow-right')) {
+                return;
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (isShowingQuestion) {
+                // Passa alla selezione del prossimo impostore
+                currentQuestionIndex += 2;
+                if (currentQuestionIndex < domande.length - 1) {
+                    showNameSelector();
+                } else {
+                    // Fine domande
+                    document.getElementById('content').classList.add('hidden');
+                    document.getElementById('counter').textContent = 'Fine delle domande!';
+                }
+            }
+        }
+
+        function previousQuestion() {
+            if (isShowingQuestion && currentQuestionIndex >= 2) {
+                currentQuestionIndex -= 2;
+                showNameSelector();
+            } else if (!isShowingQuestion && currentQuestionIndex >= 2) {
+                currentQuestionIndex -= 2;
+                if (selectedImpostor) {
+                    showQuestionWithImpostor(selectedImpostor);
+                }
+            }
+        }
+
+        function showNameSelector() {
+            isShowingQuestion = false;
+            document.getElementById('content').classList.add('hidden');
+            document.getElementById('nameSelector').classList.remove('hidden');
+            document.getElementById('counter').classList.remove('hidden');
+            
+            const questionNumber = Math.floor(currentQuestionIndex / 2) + 1;
+            const totalQuestions = Math.floor(domande.length / 2);
+            document.getElementById('counter').textContent = `Domanda ${questionNumber}/${totalQuestions}`;
+            
+            const nameButtons = document.getElementById('nameButtons');
+            nameButtons.innerHTML = '';
+            
+            nomi.forEach(nome => {
+                const btn = document.createElement('button');
+                btn.className = 'name-button';
+                btn.textContent = nome;
+                btn.onclick = () => selectImpostor(nome);
+                nameButtons.appendChild(btn);
+            });
+        }
+
+        function selectImpostor(nome) {
+            selectedImpostor = nome;
+            showQuestionWithImpostor(nome);
+        }
+
+        function showQuestionWithImpostor(nome) {
+            const domandaTutti = domande[currentQuestionIndex];
+            const domandaImpostore = domande[currentQuestionIndex + 1];
+            
+            if (!domandaTutti || !domandaImpostore) {
+                alert('Non ci sono più coppie di domande disponibili!');
+                return;
+            }
+            
+            isShowingQuestion = true;
+            document.getElementById('questionDisplay').textContent = domandaTutti;
+            document.getElementById('impostorName').textContent = nome;
+            document.getElementById('impostorQuestion').textContent = domandaImpostore;
+            
+            document.getElementById('nameSelector').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+        }
 
         function popolaSelect(id, items) {
             const select = document.getElementById(id);
@@ -374,8 +670,18 @@
         });
 
         document.getElementById('resetBtn').addEventListener('click', function() {
-            document.getElementById('content').classList.add('hidden');
+            resetScreen();
+            if (presentationMode) {
+                currentQuestionIndex = 0;
+                showNameSelector();
+            }
         });
+
+        function resetScreen() {
+            document.getElementById('content').classList.add('hidden');
+            document.getElementById('nameSelector').classList.add('hidden');
+            document.getElementById('counter').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
