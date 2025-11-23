@@ -316,10 +316,10 @@
 <body>
     <div class="container">
         <div class="control-panel">
-            <h1>🎮 Pannello di Controllo</h1>
+            <h1>Pannello di Controllo</h1>
             
             <div class="section">
-                <h2>📄 File</h2>
+                <h2>File</h2>
                 <div class="file-status" id="domandeStatus">Caricamento domande.txt...</div>
                 <div class="file-status" id="nomiStatus">Caricamento tomodachi.txt...</div>
                 
@@ -368,7 +368,7 @@
             <button class="reset-btn" id="resetBtn">Reset Schermo</button>
             
             <div class="info">
-                💡 I file vengono caricati automaticamente da GitHub
+                💡 I file vengono caricati automaticamente dal server
             </div>
         </div>
 
@@ -554,7 +554,6 @@
         }
 
         function handleScreenClick(e) {
-            // Non gestire click sui pulsanti dei nomi
             if (e.target.classList.contains('name-button') || 
                 e.target.classList.contains('arrow-left') || 
                 e.target.classList.contains('arrow-right')) {
@@ -684,4 +683,5 @@
         }
     </script>
 </body>
+
 </html>
